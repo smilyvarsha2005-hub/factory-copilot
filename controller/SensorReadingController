@@ -1,0 +1,60 @@
+package com.factory.copilot.controller;
+
+import com.factory.copilot.entity.SensorReading;
+import com.factory.copilot.repository.SensorReadingRepository;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/sensors")
+@CrossOrigin(origins = "*")
+public class SensorReadingController {
+
+    private final SensorReadingRepository repository;
+
+    public SensorReadingController(SensorReadingRepository repository) {
+        this.repository = repository;
+    }
+
+    @GetMapping
+    public List<SensorReading> getAllSensorReadings() {
+        return repository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SensorReading> getSensorReadingById(
+            @PathVariable Long id) {
+
+        return repository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/machine/{machineId}")
+    public List<SensorReading> getReadingsByMachine(
+            @PathVariable Long machineId) {
+
+        return repository.findByMachineId(machineId);
+    }
+
+    @PostMapping
+    public SensorReading createSensorReading(
+            @RequestBody SensorReading sensorReading) {
+
+        return repository.save(sensorReading);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSensorReading(
+            @PathVariable Long id) {
+
+        if (!repository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+}

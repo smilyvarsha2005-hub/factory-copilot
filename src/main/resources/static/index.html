@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Factory Floor Co-Pilot</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0b1220;
+            color: #ffffff;
+        }
+
+        .header {
+            background: #111c2f;
+            padding: 20px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #26354d;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        .status {
+            color: #22c55e;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 30px;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #94a3b8;
+        }
+
+        .analyze-button {
+            margin-top: 20px;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .analyze-button:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .machine-card {
+            background: #111c2f;
+            border: 1px solid #26354d;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .machine-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .machine-name {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .machine-id {
+            color: #94a3b8;
+            margin-top: 7px;
+        }
+
+        .warning {
+            background: #7f1d1d;
+            color: #fecaca;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .sensor {
+            background: #162338;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #26354d;
+        }
+
+        .sensor-title {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .sensor-value {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .unit {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .section {
+            background: #111c2f;
+            border: 1px solid #26354d;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section h2 {
+            margin-bottom: 18px;
+        }
+
+        .incident {
+            background: #162338;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .incident-title {
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .incident p {
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        .ai-box {
+            background: #172554;
+            border: 1px solid #2563eb;
+            padding: 22px;
+            border-radius: 12px;
+        }
+
+        .ai-title {
+            color: #60a5fa;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .recommendation {
+            line-height: 1.7;
+            color: #dbeafe;
+        }
+
+        .analysis-status {
+            color: #93c5fd;
+            font-weight: bold;
+        }
+
+        .loading {
+            color: #94a3b8;
+            padding: 20px 0;
+        }
+
+        .footer {
+            text-align: center;
+            color: #64748b;
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .machine-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .header {
+                padding: 18px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="logo">
+        🏭 AI Factory Floor <span>Co-Pilot</span>
+    </div>
+
+    <div class="status">
+        ● SYSTEM ONLINE
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h1>
+            Factory Operations Dashboard
+        </h1>
+
+        <p>
+            AI-assisted machine monitoring and troubleshooting
+        </p>
+
+        <button
+            class="analyze-button"
+            onclick="analyzeMachine()">
+
+            🤖 Analyze Machine Problem
+
+        </button>
+
+    </div>
+
+
+    <!-- DASHBOARD -->
+
+    <div id="dashboard">
+
+        <div class="loading">
+
+            Loading machine information...
+
+        </div>
+
+    </div>
+
+
+</main>
+
+
+<div class="footer">
+
+    AI Factory Floor Co-Pilot • Hack with Hyderabad 3.0
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   LOAD MACHINE DATA FROM SPRING BOOT
+===================================================== */
+
+
+async function loadMachine() {
+
+    try {
+
+        const response =
+            await fetch("/api/copilot/machine/1");
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load machine data"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Machine data:",
+            data
+        );
+
+
+        displayDashboard(data);
+
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+
+        document.getElementById(
+            "dashboard"
+        ).innerHTML = `
+
+            <div class="section">
+
+                <h2>
+                    ❌ Unable to load machine
+                </h2>
+
+                <p style="color:#94a3b8; margin-top:10px;">
+
+                    Please make sure the Spring Boot
+                    backend is running and the machine
+                    API is available.
+
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DISPLAY MACHINE DASHBOARD
+===================================================== */
+
+
+function displayDashboard(data) {
+
+
+    const machine =
+        data.machine || {};
+
+
+    const incidents =
+        data.incidents || [];
+
+
+    const maintenance =
+        data.maintenance || [];
+
+
+    const sensors =
+        data.sensorReadings || [];
+
+
+    let vibration =
+        "8.4";
+
+
+    let temperature =
+        "92";
+
+
+    let pressure =
+        "145";
+
+
+    /*
+       Use latest sensor reading if available
+    */
+
+
+    if (sensors.length > 0) {
+
+
+        const latest =
+            sensors[sensors.length - 1];
+
+
+        vibration =
+            latest.vibration ??
+            latest.vibrationValue ??
+            vibration;
+
+
+        temperature =
+            latest.temperature ??
+            latest.temperatureValue ??
+            temperature;
+
+
+        pressure =
+            latest.pressure ??
+            latest.pressureValue ??
+            pressure;
+
+    }
+
+
+
+    /* =================================================
+       HISTORICAL INCIDENTS
+    ================================================= */
+
+
+    let incidentHTML =
+        "";
+
+
+    if (incidents.length === 0) {
+
+
+        incidentHTML = `
+
+            <div class="incident">
+
+                <p>
+                    No previous incidents found.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+    else {
+
+
+        incidents.forEach(
+            incident => {
+
+
+                incidentHTML += `
+
+                    <div class="incident">
+
+                        <div class="incident-title">
+
+                            ⚠️
+                            ${
+                                incident.description ||
+                                incident.title ||
+                                "Previous machine incident"
+                            }
+
+                        </div>
+
+                        <p>
+
+                            ${
+                                incident.resolution ||
+                                incident.rootCause ||
+                                "Historical troubleshooting information available."
+                            }
+
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+
+    /* =================================================
+       MAINTENANCE HISTORY
+    ================================================= */
+
+
+    let maintenanceHTML =
+        "";
+
+
+    if (maintenance.length === 0) {
+
+
+        maintenanceHTML = `
+
+            <div class="incident">
+
+                <p>
+                    No maintenance records found.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+    else {
+
+
+        maintenance.forEach(
+            item => {
+
+
+                maintenanceHTML += `
+
+                    <div class="incident">
+
+                        <div class="incident-title">
+
+                            🔧 Maintenance Record
+
+                        </div>
+
+                        <p>
+
+                            ${
+                                item.description ||
+                                item.maintenanceDescription ||
+                                item.details ||
+                                "Maintenance activity recorded."
+                            }
+
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+
+    /* =================================================
+       COMPLETE DASHBOARD
+    ================================================= */
+
+
+    document.getElementById(
+        "dashboard"
+    ).innerHTML = `
+
+
+        <!-- MACHINE -->
+
+        <div class="machine-card">
+
+
+            <div class="machine-top">
+
+
+                <div>
+
+                    <div class="machine-name">
+
+                        🏭
+                        ${
+                            machine.machineName ||
+                            machine.name ||
+                            "PRESS-2018"
+                        }
+
+                    </div>
+
+
+                    <div class="machine-id">
+
+                        Machine ID:
+                        ${
+                            machine.machineId ||
+                            machine.id ||
+                            "1"
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <div class="warning">
+
+                    ⚠ WARNING
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- SENSOR GRID -->
+
+            <div class="grid">
+
+
+                <div class="sensor">
+
+                    <div class="sensor-title">
+
+                        VIBRATION
+
+                    </div>
+
+
+                    <div class="sensor-value">
+
+                        ${vibration}
+
+                    </div>
+
+
+                    <span class="unit">
+
+                        mm/s
+
+                    </span>
+
+                </div>
+
+
+
+                <div class="sensor">
+
+                    <div class="sensor-title">
+
+                        TEMPERATURE
+
+                    </div>
+
+
+                    <div class="sensor-value">
+
+                        ${temperature}
+
+                    </div>
+
+
+                    <span class="unit">
+
+                        °C
+
+                    </span>
+
+                </div>
+
+
+
+                <div class="sensor">
+
+                    <div class="sensor-title">
+
+                        PRESSURE
+
+                    </div>
+
+
+                    <div class="sensor-value">
+
+                        ${pressure}
+
+                    </div>
+
+
+                    <span class="unit">
+
+                        PSI
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- INCIDENT HISTORY -->
+
+
+        <div class="section">
+
+            <h2>
+
+                ⚠️ Historical Incidents
+
+            </h2>
+
+
+            ${incidentHTML}
+
+        </div>
+
+
+
+        <!-- MAINTENANCE -->
+
+
+        <div class="section">
+
+            <h2>
+
+                🔧 Maintenance History
+
+            </h2>
+
+
+            ${maintenanceHTML}
+
+        </div>
+
+
+
+        <!-- AI COPILOT -->
+
+
+        <div class="section">
+
+            <h2>
+
+                🤖 AI Troubleshooting Co-Pilot
+
+            </h2>
+
+
+            <div class="ai-box"
+                 id="aiBox">
+
+
+                <div class="ai-title">
+
+                    Ready for Analysis
+
+                </div>
+
+
+                <div class="recommendation">
+
+                    Click
+
+                    <strong>
+                        "Analyze Machine Problem"
+                    </strong>
+
+                    to let the Co-Pilot examine
+                    the machine condition,
+                    sensor readings and historical
+                    incidents.
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    `;
+
+}
+
+
+
+/* =====================================================
+   AI ANALYSIS DEMO
+===================================================== */
+
+
+function analyzeMachine() {
+
+
+    const aiBox =
+        document.getElementById(
+            "aiBox"
+        );
+
+
+    if (!aiBox) {
+
+        return;
+
+    }
+
+
+
+    /* ANALYZING */
+
+    aiBox.innerHTML = `
+
+        <div class="ai-title">
+
+            🤖 AI Co-Pilot
+
+        </div>
+
+
+        <div class="recommendation">
+
+            <p class="analysis-status">
+
+                🔍 Analyzing machine condition...
+
+            </p>
+
+
+            <br>
+
+
+            <p>
+
+                Checking current sensor readings,
+                historical incidents and maintenance
+                information.
+
+            </p>
+
+        </div>
+
+    `;
+
+
+
+    /* SHOW RESULT */
+
+    setTimeout(
+        () => {
+
+
+            aiBox.innerHTML = `
+
+                <div class="ai-title">
+
+                    🤖 AI Co-Pilot Analysis Complete
+
+                </div>
+
+
+                <div class="recommendation">
+
+
+                    <p>
+
+                        ⚠️
+
+                        <strong>
+                            Issue detected:
+                        </strong>
+
+                        abnormal vibration
+                        and elevated temperature.
+
+                    </p>
+
+
+                    <br>
+
+
+                    <p>
+
+                        🧠
+
+                        <strong>
+                            Historical match:
+                        </strong>
+
+                        A previous incident
+                        showed similar vibration
+                        behavior.
+
+                    </p>
+
+
+                    <br>
+
+
+                    <p>
+
+                        🔎
+
+                        <strong>
+                            Possible cause:
+                        </strong>
+
+                        clogged residue trap.
+
+                    </p>
+
+
+                    <br>
+
+
+                    <p>
+
+                        🔧
+
+                        <strong>
+                            Recommended technician action:
+                        </strong>
+
+                        Inspect and clean the
+                        residue trap before performing
+                        further calibration.
+
+                    </p>
+
+
+                    <br>
+
+
+                    <p>
+
+                        🚨
+
+                        <strong>
+                            Priority:
+                        </strong>
+
+                        High — inspect the machine
+                        before continued operation.
+
+                    </p>
+
+
+                </div>
+
+            `;
+
+
+        },
+
+        1500
+
+    );
+
+}
+
+
+
+/* =====================================================
+   START APPLICATION
+===================================================== */
+
+
+loadMachine();
+
+
+</script>
+
+
+</body>
+
+</html>

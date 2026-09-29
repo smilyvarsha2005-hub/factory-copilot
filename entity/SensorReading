@@ -1,0 +1,86 @@
+package com.factory.copilot.entity;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "sensor_readings")
+public class SensorReading {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "machine_id", nullable = false)
+    private Machine machine;
+
+    private LocalDateTime recordedAt;
+
+    private Double temperature;
+
+    private Double humidity;
+
+    private Double vibration;
+
+    public SensorReading() {
+    }
+
+    public SensorReading(
+            Machine machine,
+            LocalDateTime recordedAt,
+            Double temperature,
+            Double humidity,
+            Double vibration) {
+
+        this.machine = machine;
+        this.recordedAt = recordedAt;
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.vibration = vibration;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Machine getMachine() {
+        return machine;
+    }
+
+    public void setMachine(Machine machine) {
+        this.machine = machine;
+    }
+
+    public LocalDateTime getRecordedAt() {
+        return recordedAt;
+    }
+
+    public void setRecordedAt(LocalDateTime recordedAt) {
+        this.recordedAt = recordedAt;
+    }
+
+    public Double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(Double temperature) {
+        this.temperature = temperature;
+    }
+
+    public Double getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(Double humidity) {
+        this.humidity = humidity;
+    }
+
+    public Double getVibration() {
+        return vibration;
+    }
+
+    public void setVibration(Double vibration) {
+        this.vibration = vibration;
+    }
+}
